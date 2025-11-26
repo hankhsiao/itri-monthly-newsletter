@@ -18,6 +18,7 @@ export interface TechArticle {
   date: string;
   image?: string;
   caption?: string;
+  tags: string[];
 }
 
 export interface TechCategory {

@@ -54,6 +54,13 @@ function convertRowToArticle(row: CSVRow, headers: string[], index: number): Tec
   // If not available, try the first summary column
   const summaryText = row['summary_9']?.trim() || row['summary']?.trim() || '';
   
+  // Parse tags from comma-separated string
+  const tagsString = row['tags']?.trim() || '';
+  const tags = tagsString
+    .split(',')
+    .map(tag => tag.trim())
+    .filter(tag => tag.length > 0);
+  
   return {
     id: `article-${index}`,
     title,
@@ -65,6 +72,7 @@ function convertRowToArticle(row: CSVRow, headers: string[], index: number): Tec
     date: row['date']?.trim() || '',
     image: row['image1']?.trim() || undefined,
     caption: row['caption1']?.trim() || undefined,
+    tags,
   };
 }
 

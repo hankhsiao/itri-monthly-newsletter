@@ -1,7 +1,7 @@
 'use client';
 
 import { TechArticle } from '@/app/data/types';
-import { CATEGORIES } from '@/app/data/categories';
+import { CATEGORIES, CATEGORY_TAG_COLORS } from '@/app/data/categories';
 
 interface TechInformationProps {
   articles: TechArticle[];
@@ -15,6 +15,10 @@ export function TechInformation({ articles }: TechInformationProps) {
       SUBCATEGORY_NAMES[subcategory.key] = subcategory.name;
     });
   });
+
+  const getCategoryColor = (categoryKey: string): { bg: string; text: string } => {
+    return CATEGORY_TAG_COLORS[categoryKey] || { bg: 'bg-gray-100', text: 'text-gray-800' };
+  };
 
   const groupByCategory = (articles: TechArticle[]) => {
     const result: Record<string, Record<string, TechArticle[]>> = {};
@@ -85,6 +89,21 @@ export function TechInformation({ articles }: TechInformationProps) {
                                         <p className="text-gray-600 text-sm mb-3">
                                           {article.summary}
                                         </p>
+                                        {article.tags.length > 0 && (
+                                          <div className="flex flex-wrap gap-2 mb-3">
+                                            {article.tags.map((tag) => {
+                                              const colors = getCategoryColor(article.category);
+                                              return (
+                                                <span
+                                                  key={tag}
+                                                  className={`inline-block ${colors.bg} ${colors.text} text-xs px-2 py-1 rounded`}
+                                                >
+                                                  {tag}
+                                                </span>
+                                              );
+                                            })}
+                                          </div>
+                                        )}
                                         <div className="flex flex-wrap gap-2 text-xs text-gray-500">
                                           <span>{article.source}</span>
                                           <span>•</span>
