@@ -1,7 +1,8 @@
-import { TechArticle } from './types';
+import { TechArticle, HeaderInfo } from './types';
 import { fetchAndParseCSV, CSVRow } from '@/app/lib/csv';
 
 const CSV_URL = 'https://docs.google.com/spreadsheets/d/1ZOOfe8vel4jg199WGvLPlwE8Nk444LjYw7Qwig_Cjo0/export?format=csv&gid=1932562813';
+const HEADER_CSV_URL = 'https://docs.google.com/spreadsheets/d/1ZOOfe8vel4jg199WGvLPlwE8Nk444LjYw7Qwig_Cjo0/export?format=csv&gid=1363291738';
 
 export async function fetchArticlesFromSheet(): Promise<TechArticle[]> {
   try {
@@ -77,4 +78,30 @@ function extractSubcategoryCode(subcategoryFull: string): string {
   // Extract code like "C2" from "C2-4.農工生產整合"
   const match = subcategoryFull.match(/^([A-Z]\d+)/);
   return match ? match[1] : '';
+}
+
+export async function fetchHeaderInfoFromSheet(): Promise<HeaderInfo> {
+  try {
+    const csvRows = await fetchAndParseCSV(HEADER_CSV_URL);
+    
+    if (csvRows.length === 0) {
+      console.warn('No header CSV data found');
+      throw new Error('No header data available');
+    }
+    
+    // Get the first row which contains the header info
+    const headerRow = csvRows[0];
+    
+    return {
+      title: headerRow['title']?.trim() || '',
+      vol: headerRow['vol']?.trim() || '',
+      date: headerRow['date']?.trim() || '',
+      editor: headerRow['editor']?.trim() || '',
+      publisher: headerRow['publisher']?.trim() || '',
+      url: headerRow['url']?.trim() || '',
+    };
+  } catch (error) {
+    console.error('Error fetching header info from Google Sheets:', error);
+    throw error;
+  }
 }
