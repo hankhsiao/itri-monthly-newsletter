@@ -19,11 +19,11 @@ export function Header({ info }: HeaderProps) {
         
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
           <div>
-            <span className="font-semibold text-gray-700">Editor</span>
+            <span className="font-semibold text-gray-700">編輯</span>
             <p className="text-gray-600">{info.editor}</p>
           </div>
           <div>
-            <span className="font-semibold text-gray-700">Publisher</span>
+            <span className="font-semibold text-gray-700">工研院北美公司總經理</span>
             <p className="text-gray-600">{info.publisher}</p>
           </div>
           <div>
@@ -35,7 +35,7 @@ export function Header({ info }: HeaderProps) {
                 rel="noopener noreferrer"
                 className="text-blue-600 hover:text-blue-800 underline"
               >
-                ITRI
+                ITRI Newsletter
               </a>
             </p>
           </div>

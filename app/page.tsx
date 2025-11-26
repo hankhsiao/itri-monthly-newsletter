@@ -1,11 +1,13 @@
 import { Header } from '@/app/components/Header';
 import { ContentTable } from '@/app/components/ContentTable';
 import { TechInformation } from '@/app/components/TechInformation';
-import { headerInfo } from '@/app/data/header';
-import { fetchArticlesFromSheet } from '@/app/data/fetchArticles';
+import { fetchArticlesFromSheet, fetchHeaderInfoFromSheet } from '@/app/data/fetchArticles';
 
 export default async function Home() {
-  const techArticles = await fetchArticlesFromSheet();
+  const [techArticles, headerInfo] = await Promise.all([
+    fetchArticlesFromSheet(),
+    fetchHeaderInfoFromSheet(),
+  ]);
   
   return (
     <div className="min-h-screen bg-white">
