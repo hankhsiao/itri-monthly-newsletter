@@ -32,3 +32,14 @@ export interface TechSubcategory {
   name: string;
   articles: TechArticle[];
 }
+
+export interface ConferenceEvent {
+  id: string;
+  title: string;
+  url: string;
+  category: string;
+  startDate: string;
+  endDate: string;
+  location: string;
+}
+

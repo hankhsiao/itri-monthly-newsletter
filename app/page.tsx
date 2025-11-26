@@ -1,19 +1,23 @@
 import { Header } from '@/app/components/Header';
 import { ContentTable } from '@/app/components/ContentTable';
 import { TechInformation } from '@/app/components/TechInformation';
+import { ConferenceEvents } from '@/app/components/ConferenceEvents';
 import { fetchArticlesFromSheet, fetchHeaderInfoFromSheet } from '@/app/data/fetchArticles';
+import { fetchConferencesFromSheet } from '@/app/data/fetchConferences';
 
 export default async function Home() {
-  const [techArticles, headerInfo] = await Promise.all([
+  const [techArticles, headerInfo, conferenceEvents] = await Promise.all([
     fetchArticlesFromSheet(),
     fetchHeaderInfoFromSheet(),
+    fetchConferencesFromSheet(),
   ]);
   
   return (
     <div className="min-h-screen bg-white">
       <Header info={headerInfo} />
-      <ContentTable articles={techArticles} />
+      <ContentTable articles={techArticles} events={conferenceEvents} />
       <TechInformation articles={techArticles} />
+      <ConferenceEvents events={conferenceEvents} />
       
       <footer className="w-full border-t border-gray-200 bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto text-center text-gray-600 text-sm">

@@ -1,13 +1,14 @@
 'use client';
 
-import { TechArticle } from '@/app/data/types';
+import { TechArticle, ConferenceEvent } from '@/app/data/types';
 import { CATEGORIES } from '@/app/data/categories';
 
 interface ContentTableProps {
   articles: TechArticle[];
+  events?: ConferenceEvent[];
 }
 
-export function ContentTable({ articles }: ContentTableProps) {
+export function ContentTable({ articles, events = [] }: ContentTableProps) {
   // Collect all existing categories and subcategories from articles
   const existingSubcategories = new Set<string>();
   const existingCategories = new Set<string>();
@@ -16,6 +17,9 @@ export function ContentTable({ articles }: ContentTableProps) {
     existingSubcategories.add(article.subcategory);
     existingCategories.add(article.category);
   });
+
+  // Check if we have conference events
+  const hasConferenceEvents = events.length > 0;
 
   const handleScroll = (id: string) => {
     const element = document.getElementById(id);
@@ -53,6 +57,32 @@ export function ContentTable({ articles }: ContentTableProps) {
               </div>
             )
           ))}
+
+          {hasConferenceEvents && (
+            <div>
+              <h3 className="text-lg font-semibold text-gray-800 mb-3">
+                北美研討會訊息 (Conference Events)
+              </h3>
+              
+              <div className="bg-gray-100 rounded-lg p-4 space-y-2">
+                {Array.from(new Set(events.map(e => e.category)))
+                  .sort((a, b) => {
+                    if (a === 'Others') return 1;
+                    if (b === 'Others') return -1;
+                    return a.localeCompare(b, 'zh-Hant');
+                  })
+                  .map(category => (
+                    <button
+                      key={`category-${category}`}
+                      onClick={() => handleScroll(`conference-category-${category}`)}
+                      className="block text-left text-blue-600 hover:text-blue-800 hover:underline text-sm w-full"
+                    >
+                      • {category}
+                    </button>
+                  ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </nav>
