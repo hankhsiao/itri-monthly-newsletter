@@ -89,7 +89,7 @@ export function TechInformation({ articles }: TechInformationProps) {
                                         <p className="text-gray-600 text-sm mb-3">
                                           {article.summary}
                                         </p>
-                                        {article.tags.length > 0 && (
+                                        {article.tags && article.tags.length > 0 && (
                                           <div className="flex flex-wrap gap-2 mb-3">
                                             {article.tags.map((tag) => {
                                               const colors = getCategoryColor(article.category);
