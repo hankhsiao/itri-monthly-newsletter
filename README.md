@@ -16,6 +16,7 @@ Create a modern, responsive web application to deliver a monthly newsletter feat
 
 ### 2. Content Structure
 - **Single Page Layout** containing:
+  - Header with basic information of the newsletter
   - Content table (with navigation to sections and subsections)
   - Tech information organized by 4 main categories (with subcategories)
   - Industrial events section
