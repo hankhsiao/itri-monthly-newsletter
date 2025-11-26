@@ -2,9 +2,11 @@ import { Header } from '@/app/components/Header';
 import { ContentTable } from '@/app/components/ContentTable';
 import { TechInformation } from '@/app/components/TechInformation';
 import { headerInfo } from '@/app/data/header';
-import { techArticles } from '@/app/data/articles';
+import { fetchArticlesFromSheet } from '@/app/data/fetchArticles';
 
-export default function Home() {
+export default async function Home() {
+  const techArticles = await fetchArticlesFromSheet();
+  
   return (
     <div className="min-h-screen bg-white">
       <Header info={headerInfo} />
