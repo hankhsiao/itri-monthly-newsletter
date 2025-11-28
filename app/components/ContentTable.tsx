@@ -2,6 +2,7 @@
 
 import { TechArticle, ConferenceEvent } from '@/app/data/types';
 import { CATEGORIES } from '@/app/data/categories';
+import { getExistingCategories, getExistingSubcategories, sortEventsByCategory } from '@/app/lib/grouping-utils';
 
 interface ContentTableProps {
   articles: TechArticle[];
@@ -9,14 +10,8 @@ interface ContentTableProps {
 }
 
 export function ContentTable({ articles, events = [] }: ContentTableProps) {
-  // Collect all existing categories and subcategories from articles
-  const existingSubcategories = new Set<string>();
-  const existingCategories = new Set<string>();
-
-  articles.forEach(article => {
-    existingSubcategories.add(article.subcategory);
-    existingCategories.add(article.category);
-  });
+  const existingCategories = getExistingCategories(articles);
+  const existingSubcategories = getExistingSubcategories(articles);
 
   // Check if we have conference events
   const hasConferenceEvents = events.length > 0;
@@ -65,12 +60,7 @@ export function ContentTable({ articles, events = [] }: ContentTableProps) {
               </h3>
               
               <div className="bg-gray-100 rounded-lg p-4 space-y-2">
-                {Array.from(new Set(events.map(e => e.category)))
-                  .sort((a, b) => {
-                    if (a === 'Others') return 1;
-                    if (b === 'Others') return -1;
-                    return a.localeCompare(b, 'zh-Hant');
-                  })
+                {sortEventsByCategory(Array.from(new Set(events.map(e => e.category))))
                   .map(category => (
                     <button
                       key={`category-${category}`}
