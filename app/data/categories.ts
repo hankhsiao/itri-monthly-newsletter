@@ -71,3 +71,11 @@ CATEGORIES.forEach(category => {
     text: category.tagText,
   };
 });
+
+// Derive subcategory names map for quick lookup
+export const SUBCATEGORY_NAMES: Record<string, string> = {};
+CATEGORIES.forEach(category => {
+  category.subcategories.forEach(subcategory => {
+    SUBCATEGORY_NAMES[subcategory.key] = subcategory.name;
+  });
+});

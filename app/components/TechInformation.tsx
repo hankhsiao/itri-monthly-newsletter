@@ -1,48 +1,19 @@
 'use client';
 
 import { TechArticle } from '@/app/data/types';
-import { CATEGORIES, CATEGORY_TAG_COLORS } from '@/app/data/categories';
+import { CATEGORIES, CATEGORY_TAG_COLORS, SUBCATEGORY_NAMES } from '@/app/data/categories';
+import { groupArticlesByCategory, sortArticlesByDate } from '@/app/lib/grouping-utils';
 
 interface TechInformationProps {
   articles: TechArticle[];
 }
 
 export function TechInformation({ articles }: TechInformationProps) {
-  // Derive SUBCATEGORY_NAMES from CATEGORIES
-  const SUBCATEGORY_NAMES: Record<string, string> = {};
-  CATEGORIES.forEach(category => {
-    category.subcategories.forEach(subcategory => {
-      SUBCATEGORY_NAMES[subcategory.key] = subcategory.name;
-    });
-  });
-
   const getCategoryColor = (categoryKey: string): { bg: string; text: string } => {
     return CATEGORY_TAG_COLORS[categoryKey] || { bg: 'bg-gray-100', text: 'text-gray-800' };
   };
 
-  const groupByCategory = (articles: TechArticle[]) => {
-    const result: Record<string, Record<string, TechArticle[]>> = {};
-    
-    CATEGORIES.forEach(category => {
-      result[category.key] = {};
-      category.subcategories.forEach(subcat => {
-        result[category.key][subcat.key] = [];
-      });
-    });
-    
-    articles.forEach(article => {
-      const catKey = article.category;
-      const subKey = article.subcategory;
-      
-      if (result[catKey] && result[catKey][subKey]) {
-        result[catKey][subKey].push(article);
-      }
-    });
-    
-    return result;
-  };
-
-  const grouped = groupByCategory(articles);
+  const grouped = groupArticlesByCategory(articles);
 
   return (
     <section className="w-full py-8 px-4 sm:px-6 lg:px-8 bg-white">
@@ -67,8 +38,7 @@ export function TechInformation({ articles }: TechInformationProps) {
                         </h4>
                         
                         <div className="space-y-4">
-                          {subArticles
-                            .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+                          {sortArticlesByDate(subArticles)
                             .map((article) => (
                               <article
                                 key={article.id}
