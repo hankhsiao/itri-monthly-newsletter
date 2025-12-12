@@ -28,19 +28,28 @@ export function groupArticlesByCategory(articles: TechArticle[]) {
 }
 
 /**
- * Sorts articles by date (newest first) with stable sort by ID for articles with same date
+ * Sorts articles by tag first, then by date (newest first) with stable sort by ID
  */
 export function sortArticlesByDate(articles: TechArticle[]): TechArticle[] {
   return [...articles].sort((a, b) => {
+    // Get primary tag from each article (first tag)
+    const tagA = a.tags && a.tags.length > 0 ? a.tags[0] : '';
+    const tagB = b.tags && b.tags.length > 0 ? b.tags[0] : '';
+    
+    // First, sort by tag
+    if (tagA !== tagB) {
+      return tagA.localeCompare(tagB);
+    }
+    
+    // If tags are the same, sort by date (newest first)
     const dateA = new Date(a.date).getTime();
     const dateB = new Date(b.date).getTime();
     
-    // If dates are different, sort by date (newest first)
     if (dateA !== dateB) {
       return dateB - dateA;
     }
     
-    // If dates are the same, sort by ID for stable ordering
+    // If dates are also the same, sort by ID for stable ordering
     return a.id.localeCompare(b.id);
   });
 }
