@@ -6,25 +6,39 @@ import { CATEGORIES } from '@/app/data/categories';
  * Maintains the structure defined in CATEGORIES
  */
 export function groupArticlesByCategory(articles: TechArticle[]) {
-  const result: Record<string, Record<string, TechArticle[]>> = {};
-  
+  const grouped: Record<string, Record<string, TechArticle[]>> = {};
+
   CATEGORIES.forEach(category => {
-    result[category.key] = {};
+    grouped[category.key] = {};
     category.subcategories.forEach(subcat => {
-      result[category.key][subcat.key] = [];
+      grouped[category.key][subcat.key] = [];
     });
   });
-  
+
   articles.forEach(article => {
     const catKey = article.category;
     const subKey = article.subcategory;
-    
-    if (result[catKey] && result[catKey][subKey]) {
-      result[catKey][subKey].push(article);
+
+    if (grouped[catKey] && grouped[catKey][subKey]) {
+      grouped[catKey][subKey].push(article);
     }
   });
-  
-  return result;
+
+  // Assign categoryIndex to each article: 1-based sequential number within the major category,
+  // spanning all subcategories in order, sorted by sortArticlesByDate (tag → date desc → id).
+  CATEGORIES.forEach(category => {
+    let counter = 1;
+    category.subcategories.forEach(subcat => {
+      const subArticles = grouped[category.key]?.[subcat.key];
+      if (subArticles && subArticles.length > 0) {
+        sortArticlesByDate(subArticles).forEach(article => {
+          article.categoryIndex = counter++;
+        });
+      }
+    });
+  });
+
+  return grouped;
 }
 
 /**

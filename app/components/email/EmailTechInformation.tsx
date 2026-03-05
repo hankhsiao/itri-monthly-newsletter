@@ -14,20 +14,6 @@ export function EmailTechInformation({ articles }: EmailTechInformationProps) {
 
   const grouped = groupArticlesByCategory(articles);
 
-  // Pre-compute article numbers per category (sequential across subcategories)
-  const articleNumbers = new Map<string, number>();
-  CATEGORIES.forEach(category => {
-    let counter = 1;
-    category.subcategories.forEach(subcat => {
-      const subArticles = grouped[category.key]?.[subcat.key];
-      if (subArticles && subArticles.length > 0) {
-        sortArticlesByDate(subArticles).forEach(article => {
-          articleNumbers.set(article.id, counter++);
-        });
-      }
-    });
-  });
-
   return (
     <section style={emailStyles.section.wrapper}>
       <div style={{ maxWidth: EMAIL_MAX_WIDTH, margin: EMAIL_MARGIN_AUTO }}>
@@ -81,7 +67,7 @@ export function EmailTechInformation({ articles }: EmailTechInformationProps) {
                                   rel="noopener noreferrer"
                                   style={emailStyles.article.title}
                                 >
-                                  {articleNumbers.get(article.id)}. {article.title}
+                                  {article.categoryIndex}. {article.title}
                                 </a>
 
                                 <p style={emailStyles.article.summary}>{article.summary}</p>

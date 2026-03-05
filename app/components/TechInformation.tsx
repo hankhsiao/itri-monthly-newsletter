@@ -15,20 +15,6 @@ export function TechInformation({ articles }: TechInformationProps) {
 
   const grouped = groupArticlesByCategory(articles);
 
-  // Pre-compute article numbers per category (sequential across subcategories)
-  const articleNumbers = new Map<string, number>();
-  CATEGORIES.forEach(category => {
-    let counter = 1;
-    category.subcategories.forEach(subcat => {
-      const subArticles = grouped[category.key]?.[subcat.key];
-      if (subArticles && subArticles.length > 0) {
-        sortArticlesByDate(subArticles).forEach(article => {
-          articleNumbers.set(article.id, counter++);
-        });
-      }
-    });
-  });
-
   return (
     <section className="w-full py-8 px-4 sm:px-6 lg:px-8 bg-white">
       <div className="max-w-6xl mx-auto">
@@ -69,7 +55,7 @@ export function TechInformation({ articles }: TechInformationProps) {
                                           rel="noopener noreferrer"
                                           className="text-lg font-semibold text-blue-600 hover:text-blue-800 underline block mb-2"
                                         >
-                                          {articleNumbers.get(article.id)}. {article.title}
+                                          {article.categoryIndex}. {article.title}
                                         </a>
                                         <p className="text-gray-600 text-sm mb-3">
                                           {article.summary}

@@ -19,6 +19,12 @@ export interface TechArticle {
   image?: string;
   caption?: string;
   tags: string[];
+  /**
+   * 1-based display index within the article's major category (A/B/C/T),
+   * counted sequentially across all subcategories ordered by tag → date desc → id.
+   * Assigned by groupArticlesByCategory().
+   */
+  categoryIndex?: number;
 }
 
 export interface TechCategory {
