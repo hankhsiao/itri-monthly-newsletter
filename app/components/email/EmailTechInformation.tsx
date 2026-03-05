@@ -14,10 +14,25 @@ export function EmailTechInformation({ articles }: EmailTechInformationProps) {
 
   const grouped = groupArticlesByCategory(articles);
 
+  // Pre-compute article numbers per category (sequential across subcategories)
+  const articleNumbers = new Map<string, number>();
+  CATEGORIES.forEach(category => {
+    let counter = 1;
+    category.subcategories.forEach(subcat => {
+      const subArticles = grouped[category.key]?.[subcat.key];
+      if (subArticles && subArticles.length > 0) {
+        sortArticlesByDate(subArticles).forEach(article => {
+          articleNumbers.set(article.id, counter++);
+        });
+      }
+    });
+  });
+
   return (
     <section style={emailStyles.section.wrapper}>
       <div style={{ maxWidth: EMAIL_MAX_WIDTH, margin: EMAIL_MARGIN_AUTO }}>
         <h2 style={emailStyles.section.title}>科技資訊 (Tech Information)</h2>
+        <p style={{ color: EMAIL_COLORS.textMuted, fontSize: '14px', margin: '0 0 24px 0' }}>共 {articles.length} 篇文章</p>
 
         <div>
           {CATEGORIES.map(category => (
@@ -58,7 +73,7 @@ export function EmailTechInformation({ articles }: EmailTechInformationProps) {
 
                         <div>
                           {sortArticlesByDate(subArticles)
-                            .map(article => (
+                            .map((article) => (
                               <article key={article.id} style={emailStyles.article.wrapper}>
                                 <a
                                   href={article.url}
@@ -66,7 +81,7 @@ export function EmailTechInformation({ articles }: EmailTechInformationProps) {
                                   rel="noopener noreferrer"
                                   style={emailStyles.article.title}
                                 >
-                                  {article.title}
+                                  {articleNumbers.get(article.id)}. {article.title}
                                 </a>
 
                                 <p style={emailStyles.article.summary}>{article.summary}</p>

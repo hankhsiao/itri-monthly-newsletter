@@ -15,10 +15,25 @@ export function TechInformation({ articles }: TechInformationProps) {
 
   const grouped = groupArticlesByCategory(articles);
 
+  // Pre-compute article numbers per category (sequential across subcategories)
+  const articleNumbers = new Map<string, number>();
+  CATEGORIES.forEach(category => {
+    let counter = 1;
+    category.subcategories.forEach(subcat => {
+      const subArticles = grouped[category.key]?.[subcat.key];
+      if (subArticles && subArticles.length > 0) {
+        sortArticlesByDate(subArticles).forEach(article => {
+          articleNumbers.set(article.id, counter++);
+        });
+      }
+    });
+  });
+
   return (
     <section className="w-full py-8 px-4 sm:px-6 lg:px-8 bg-white">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold text-gray-900 mb-8">科技資訊 (Tech Information)</h2>
+        <h2 className="text-3xl font-bold text-gray-900 mb-2">科技資訊 (Tech Information)</h2>
+        <p className="text-gray-500 text-sm mb-8">共 {articles.length} 篇文章</p>
         
         <div className="space-y-12">
           {CATEGORIES.map(category => (
@@ -54,7 +69,7 @@ export function TechInformation({ articles }: TechInformationProps) {
                                           rel="noopener noreferrer"
                                           className="text-lg font-semibold text-blue-600 hover:text-blue-800 underline block mb-2"
                                         >
-                                          {article.title}
+                                          {articleNumbers.get(article.id)}. {article.title}
                                         </a>
                                         <p className="text-gray-600 text-sm mb-3">
                                           {article.summary}
