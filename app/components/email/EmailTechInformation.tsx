@@ -72,24 +72,22 @@ export function EmailTechInformation({ articles }: EmailTechInformationProps) {
 
                                 <p style={emailStyles.article.summary}>{article.summary}</p>
 
-                                {article.tags && article.tags.length > 0 && (
+                                {article.subcategory && (
                                   <div style={{ marginBottom: '12px' }}>
-                                    {article.tags.map((tag, tagIdx) => {
+                                    {(() => {
                                       const colors = getCategoryColor(article.category);
-
                                       return (
                                         <span
-                                          key={`tag-${tagIdx}`}
                                           style={{
                                             ...emailStyles.tag.wrapper,
                                             backgroundColor: EMAIL_TAG_BG_COLORS[colors.bg] || EMAIL_COLORS.gray100,
                                             color: EMAIL_TAG_TEXT_COLORS[colors.text] || EMAIL_COLORS.textDefault,
                                           }}
                                         >
-                                          {tag}
+                                          {article.fullSubcategory}
                                         </span>
                                       );
-                                    })}
+                                    })()}
                                   </div>
                                 )}
 

@@ -60,19 +60,11 @@ export function TechInformation({ articles }: TechInformationProps) {
                                         <p className="text-gray-600 text-sm mb-3">
                                           {article.summary}
                                         </p>
-                                        {article.tags && article.tags.length > 0 && (
+                                        {article.subcategory && (
                                           <div className="flex flex-wrap gap-2 mb-3">
-                                            {article.tags.map((tag) => {
-                                              const colors = getCategoryColor(article.category);
-                                              return (
-                                                <span
-                                                  key={tag}
-                                                  className={`inline-block ${colors.bg} ${colors.text} text-xs px-2 py-1 rounded`}
-                                                >
-                                                  {tag}
-                                                </span>
-                                              );
-                                            })}
+                                            <span className={`inline-block ${getCategoryColor(article.category).bg} ${getCategoryColor(article.category).text} text-xs px-2 py-1 rounded`}>
+                                              {article.fullSubcategory}
+                                            </span>
                                           </div>
                                         )}
                                         <div className="flex flex-wrap gap-2 text-xs text-gray-500">

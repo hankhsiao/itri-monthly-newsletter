@@ -25,7 +25,7 @@ export function groupArticlesByCategory(articles: TechArticle[]) {
   });
 
   // Assign categoryIndex to each article: 1-based sequential number within the major category,
-  // spanning all subcategories in order, sorted by sortArticlesByDate (tag → date desc → id).
+  // spanning all subcategories in order, sorted by sortArticlesByDate (subcategory → date desc → id).
   CATEGORIES.forEach(category => {
     let counter = 1;
     category.subcategories.forEach(subcat => {
@@ -42,17 +42,16 @@ export function groupArticlesByCategory(articles: TechArticle[]) {
 }
 
 /**
- * Sorts articles by tag first, then by date (newest first) with stable sort by ID
+ * Sorts articles by subcategory first, then by date (newest first) with stable sort by ID
  */
 export function sortArticlesByDate(articles: TechArticle[]): TechArticle[] {
   return [...articles].sort((a, b) => {
-    // Get primary tag from each article (first tag)
-    const tagA = a.tags && a.tags.length > 0 ? a.tags[0] : '';
-    const tagB = b.tags && b.tags.length > 0 ? b.tags[0] : '';
-    
-    // First, sort by tag
-    if (tagA !== tagB) {
-      return tagA.localeCompare(tagB);
+    const subA = a.subcategory;
+    const subB = b.subcategory;
+
+    // First, sort by subcategory
+    if (subA !== subB) {
+      return subA.localeCompare(subB);
     }
     
     // If tags are the same, sort by date (newest first)

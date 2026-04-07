@@ -14,14 +14,14 @@ export interface TechArticle {
   url: string;
   category: string;
   subcategory: string;
+  fullSubcategory: string;
   source: string;
   date: string;
   image?: string;
   caption?: string;
-  tags: string[];
   /**
    * 1-based display index within the article's major category (A/B/C/T),
-   * counted sequentially across all subcategories ordered by tag → date desc → id.
+   * counted sequentially across all subcategories ordered by subcategory → date desc → id.
    * Assigned by groupArticlesByCategory().
    */
   categoryIndex?: number;
