@@ -49,19 +49,26 @@ export function sortArticlesByDate(articles: TechArticle[]): TechArticle[] {
     const subA = a.subcategory;
     const subB = b.subcategory;
 
-    // First, sort by subcategory
+    // First, sort by subcategory code (e.g. "T1")
     if (subA !== subB) {
       return subA.localeCompare(subB);
     }
-    
+
+    // Sort by full subcategory label so T1-1.xxx always precedes T1-2.xxx
+    const fullSubA = a.fullSubcategory;
+    const fullSubB = b.fullSubcategory;
+    if (fullSubA !== fullSubB) {
+      return fullSubA.localeCompare(fullSubB);
+    }
+
     // If tags are the same, sort by date (newest first)
     const dateA = new Date(a.date).getTime();
     const dateB = new Date(b.date).getTime();
-    
+
     if (dateA !== dateB) {
       return dateB - dateA;
     }
-    
+
     // If dates are also the same, sort by ID for stable ordering
     return a.id.localeCompare(b.id);
   });
