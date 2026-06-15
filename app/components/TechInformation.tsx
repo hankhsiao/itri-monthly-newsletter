@@ -50,15 +50,18 @@ export function TechInformation({ articles }: TechInformationProps) {
                                   <div className="flex-1">
                                     <div className="flex items-start justify-between gap-4">
                                       <div className="flex-1">
-                                        <a
-                                          href={article.url}
-                                          target="_blank"
-                                          rel="noopener noreferrer"
-                                          onClick={preventNavigationOnTextSelection}
-                                          className="text-lg font-semibold text-blue-600 hover:text-blue-800 underline inline-block mb-2"
-                                        >
-                                          {article.categoryIndex}. {article.title}
-                                        </a>
+                                        <p className="text-lg font-semibold mb-2">
+                                          <span className="text-gray-900">{article.categoryIndex}. </span>
+                                          <a
+                                            href={article.url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            onClick={preventNavigationOnTextSelection}
+                                            className="text-blue-600 hover:text-blue-800 underline"
+                                          >
+                                            {article.title}
+                                          </a>
+                                        </p>
                                         <p className="text-gray-600 text-sm mb-3">
                                           {article.summary}
                                         </p>
