@@ -3,6 +3,7 @@
 import { TechArticle } from '@/app/data/types';
 import { CATEGORIES, CATEGORY_TAG_COLORS, SUBCATEGORY_NAMES } from '@/app/data/categories';
 import { groupArticlesByCategory, sortArticlesByDate } from '@/app/lib/grouping-utils';
+import { preventNavigationOnTextSelection } from '@/app/lib/link-utils';
 
 interface TechInformationProps {
   articles: TechArticle[];
@@ -53,6 +54,7 @@ export function TechInformation({ articles }: TechInformationProps) {
                                           href={article.url}
                                           target="_blank"
                                           rel="noopener noreferrer"
+                                          onClick={preventNavigationOnTextSelection}
                                           className="text-lg font-semibold text-blue-600 hover:text-blue-800 underline block mb-2"
                                         >
                                           {article.categoryIndex}. {article.title}

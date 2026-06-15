@@ -2,6 +2,7 @@
 
 import { ConferenceEvent } from '@/app/data/types';
 import { groupEventsByCategory, formatDateRange, getGoogleMapsUrl } from '@/app/lib/grouping-utils';
+import { preventNavigationOnTextSelection } from '@/app/lib/link-utils';
 
 interface ConferenceEventsProps {
   events: ConferenceEvent[];
@@ -37,6 +38,7 @@ export function ConferenceEvents({ events }: ConferenceEventsProps) {
                             href={event.url}
                             target="_blank"
                             rel="noopener noreferrer"
+                            onClick={preventNavigationOnTextSelection}
                             className="text-lg font-semibold text-blue-600 hover:text-blue-800 underline"
                           >
                             {event.title}
