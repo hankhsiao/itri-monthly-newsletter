@@ -39,7 +39,7 @@ export function ConferenceEvents({ events }: ConferenceEventsProps) {
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={preventNavigationOnTextSelection}
-                            className="text-lg font-semibold text-blue-600 hover:text-blue-800 underline"
+                            className="text-lg font-semibold text-blue-600 hover:text-blue-800 underline self-start"
                           >
                             {event.title}
                           </a>

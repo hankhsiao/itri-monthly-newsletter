@@ -55,7 +55,7 @@ export function TechInformation({ articles }: TechInformationProps) {
                                           target="_blank"
                                           rel="noopener noreferrer"
                                           onClick={preventNavigationOnTextSelection}
-                                          className="text-lg font-semibold text-blue-600 hover:text-blue-800 underline block mb-2"
+                                          className="text-lg font-semibold text-blue-600 hover:text-blue-800 underline inline-block mb-2"
                                         >
                                           {article.categoryIndex}. {article.title}
                                         </a>
